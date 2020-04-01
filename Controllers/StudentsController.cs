@@ -31,33 +31,9 @@ namespace Cw4.Controllers
         [HttpGet("{id}")]
         public IActionResult GetStudentSemester(string id)
         {
-            using (SqlConnection con = new SqlConnection("Data Source=db-mssql; Initial Catalog=s18311; Integrated Security=True"))
-            using (SqlCommand com = new SqlCommand())
-            {
-                con.Open();
-                com.Connection = con;
-                com.CommandText = " select Student.FirstName, Student.LastName, Student.BirthDate, Studies.Name, Enrollment.Semester " +
-                        " from student INNER JOIN Enrollment ON Student.IdEnrollment = Enrollment.IdEnrollment INNER JOIN Studies ON " +
-                        "Enrollment.IdStudy = Studies.IdStudy WHERE Student.IndexNumber=" + id + ";";
-                SqlDataReader dr = com.ExecuteReader();
-                Student st = new Student();
-
-                while (dr.Read())
-                {
-
-                    st.FirstName = dr["FirstName"].ToString();
-                    st.LastName = dr["LastName"].ToString();
-                    st.BirthDate = dr["BirthDate"].ToString();
-                    st.StudiesName = dr["Name"].ToString();
-                    st.SemestrNumber = dr["Semester"].ToString();
-
-                }
-
-                con.Dispose();
-                string tmp = JsonSerializer.Serialize(st);
-                return Ok(tmp);
-            }
-
+            Student st = _dbService.getStudent(id);
+            string tmp = JsonSerializer.Serialize(st);
+            return Ok(tmp);
         }
 
         [HttpPost]

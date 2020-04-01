@@ -9,5 +9,6 @@ namespace Cw4.DAL
     public interface IDbService
     {
         public IEnumerable<Student> GetStudents();
+        public Student getStudent(string id);
     }
 }
