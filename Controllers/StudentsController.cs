@@ -28,10 +28,17 @@ namespace Cw4.Controllers
 
         }
 
+        [HttpGet("studentId/{index}")]
+        public IActionResult GetStudent(string index)
+        {
+            return StatusCode(200, _dbService.GetStudent(index));
+
+        }
+
         [HttpGet("{id}")]
         public IActionResult GetStudentSemester(string id)
         {
-            Student st = _dbService.getStudent(id);
+            Student st = _dbService.GetStudent(id);
             string tmp = JsonSerializer.Serialize(st);
             return Ok(tmp);
         }

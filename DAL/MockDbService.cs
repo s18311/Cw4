@@ -43,7 +43,7 @@ namespace Cw4.DAL
             
         }
 
-        public Student getStudent(string id)
+        public Student GetStudent(string id)
         {
 
             Student stud = new Student();
@@ -79,5 +79,26 @@ namespace Cw4.DAL
             return _students;
         }
 
+        public static bool StudentIdAuthorization(string id)
+        {
+
+            using (var con = new SqlConnection("Data Source=db-mssql; Initial Catalog=s18311; Integrated Security=True"))
+            using (SqlCommand com = new SqlCommand())
+            {
+                con.Open();
+                com.Connection = con;
+                com.CommandText = "select * from Student where indexNumber=@id;";
+                com.Parameters.AddWithValue("id", id);
+                SqlDataReader dr = com.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    return true;
+                }
+                dr.Close();
+            }//com
+
+
+            return false;
+        } // method body
     }
 }
